@@ -22,7 +22,7 @@
 
         $.fn.fullpage.moveTo($(this).data('goto'));
 
-        $body.toggleClass('nav-is-open');
+        $body.removeClass('nav-is-open'); // para quitar el menu
 
         e.preventDefault();
     });
