@@ -210,7 +210,7 @@ get_header(); ?>
                     <div class="services-item">
                       <a href="#" class="services-item-link">
                          <div class="services-item-bg"></div>
-                           <h3>Lorem ipsum dolor</h3>
+                           <h3>Adventures and tours</h3>
                            <p> sit amet, consectetur adipisicing elit, sed do eiusmod
                            tempor incididunt ut labore et dolore magna aliqua.</p>
                            <span class="icon">
@@ -222,7 +222,7 @@ get_header(); ?>
                     <div class="services-item">
                       <a href="#" class="services-item-link">
                          <div class="services-item-bg"></div>
-                           <h3>Lorem ipsum dolor</h3>
+                           <h3>Concierge</h3>
                            <p> sit amet, consectetur adipisicing elit, sed do eiusmod
                            tempor incididunt ut labore et dolore magna aliqua.</p>
                            <span class="icon">
@@ -234,7 +234,7 @@ get_header(); ?>
                     <div class="services-item">
                       <a href="#" class="services-item-link">
                          <div class="services-item-bg"></div>
-                           <h3>Lorem ipsum dolor</h3>
+                           <h3>Amenities</h3>
                            <p> sit amet, consectetur adipisicing elit, sed do eiusmod
                            tempor incididunt ut labore et dolore magna aliqua.</p>
                            <span class="icon">
