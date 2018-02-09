@@ -997,8 +997,8 @@ iframe {
 .comment-form .submit.verde,
 .wpcf7-submit.verde,
 .btn.verde {
-  background-color: #007d3b;
-  border-color: #00642f;
+  background-color: #1daba2;
+  border-color: #1daba2;
   color: #fff;
 }
 .search-submit.success:hover,
@@ -1461,7 +1461,7 @@ body.home {
   margin-left: 1rem;
 }
 .nav-btn-menu {
-  background-color: #4a4a4a;
+  background-color: transparent;
   top: 15px;
   left: 15px;
   z-index: 902;
@@ -1522,14 +1522,14 @@ body.home {
   top: 0;
 }
 .header-btn-menu {
-  background: #4a4a4a;
+  background: #0c3b83;
   text-align: center;
   padding: 1rem 1rem;
 }
 .header-contact .btn {
   padding: 1.4rem 1.5rem;
   margin-bottom: 0;
-  background: #00ab4f;
+  background: #1daba2;
 }
 .header-contact .btn:hover {
   background: #00642f;
@@ -2099,7 +2099,7 @@ body.home {
   color: #fff;
 }
 .footer-social a:hover {
-  color: #00ab4f;
+  color: #1daba2;
 }
 .footer-bottom {
   padding-top: 2.5rem;
