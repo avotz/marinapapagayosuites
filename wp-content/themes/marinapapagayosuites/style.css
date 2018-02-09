@@ -1502,15 +1502,19 @@ body.home {
   position: absolute;
   color: #fff;
   font-weight: 500;
-  font-size: 2rem;
   text-align: center;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
-  padding: 1rem 15px;
-  background-color: #4a4a4a;
+  padding: 0.5rem 5px;
+  max-width: 200px;
+  height: 75px;
+  background-color: #fff;
+}
+.header-logo img {
+  padding-top: 15px;
 }
 .header-right {
   position: absolute;
@@ -1541,14 +1545,16 @@ body.home {
 }
 @media screen and (min-width: 768px) {
   .header-logo {
-    padding: 1rem 15px;
-    max-width: 33.33%;
+    max-width: 350px;
     position: absolute;
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
     -o-transform: translateX(0);
     -ms-transform: translateX(0);
     transform: translateX(0);
+  }
+  .header-logo img {
+    padding-top: 0;
   }
   .fp-viewing-0 .header-logo {
     color: #fff;

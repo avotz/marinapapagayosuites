@@ -120,12 +120,15 @@ body
 		position absolute
 		color white
 		font-weight 500
-		font-size 2rem
+		//font-size 2rem
 		text-align center
 		transition all .3s ease
-		padding 1rem 15px //2.65rem 0
-		//max-width 33.33%
-		background-color #4a4a4a
+		padding .5rem 5px //2.65rem 0
+		max-width: 200px;
+		height: 75px;
+		background-color rgba(255,255,255,1)
+		img 
+			padding-top: 15px;
 
 	&-right
 		position absolute
@@ -154,10 +157,12 @@ body
 @media screen and (min-width: 768px)
 	.header
 		&-logo
-			padding 1rem 15px //2.65rem 0
-			max-width 33.33%
+			//padding 1rem 15px //2.65rem 0
+			max-width 350px//30.33%
 			position absolute
 			transform: translateX(0);
+			img 
+				padding-top: 0;
 
 	.fp-viewing-0
 		.header
