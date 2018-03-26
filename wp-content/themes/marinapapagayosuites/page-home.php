@@ -20,8 +20,7 @@ get_header(); ?>
             <div class="section active banner" id="section0">
               <div class="inner">
                   <h1 class="animated fadeIn">Marina Papagayo Suites</h1>
-                <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. </p>
+                <p class="">Part sophisticated resort, part primitive playground, this private paradise possesses one of the most extraordinary landscapes and biological corridors on the planet. </p>
               </div> 
               
               </div>
@@ -43,7 +42,7 @@ get_header(); ?>
                       'post_type' => 'suite',
                         //'order' => 'ASC',
                       'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
-                      'posts_per_page' => 6,
+                      'posts_per_page' => 50,
                       /*'tax_query' => array(
                         /*array(
                           'taxonomy' => 'view',

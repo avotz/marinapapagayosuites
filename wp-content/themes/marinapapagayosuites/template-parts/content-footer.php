@@ -13,7 +13,17 @@
         <div class="footer-container flex-container-sb">
             <div class="footer-item">
                 <h3>Marina Papagayo Suites</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                <?php rewind_posts(); ?>
+                <?php query_posts('post_type=page&page_id=6'); ?>
+                <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                        
+                            <?php the_content(); ?>
+                    
+        
+                    <?php endwhile; ?>
+                    <!-- post navigation -->
+                
+                <?php endif; ?>
             </div>
             <div class="footer-item footer-menu">
                 <?php
@@ -29,7 +39,7 @@
             </div>
             <div class="footer-item footer-contact">
                 <h3>(506) 2665-8746 – (407) 557-8717</h3>
-                <p>reservations@marinapapagayosuites.com</p>
+                <p><a href="mailto:reservations@marinapapagayosuites.com">reservations@marinapapagayosuites.com</a>    </p>
                 <div class="footer-social">
                 <a href="#"><i class="fa fa-facebook"></i></a>
                 <a href="#"><i class="fa fa-twitter"></i></a>
