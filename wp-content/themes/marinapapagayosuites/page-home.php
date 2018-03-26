@@ -29,10 +29,17 @@ get_header(); ?>
                   <div class="suites-text">
                      <h2>Suites</h2>
                      <h3>Design and comfort are perfectly combined here</h3>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                     consequat.</p>
+                      <?php rewind_posts(); ?>
+                      <?php query_posts('post_type=page&page_id=8'); ?>
+                      <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                              
+                                  <?php the_content(); ?>
+                          
+              
+                          <?php endwhile; ?>
+                          <!-- post navigation -->
+                      
+                      <?php endif; ?>
                   </div>
                   <div class="suites-cate">
                      <div class="suites-cate-container flex-container-sb">
