@@ -37,99 +37,21 @@ get_header(); ?>
                   </div>
                   <div class="suites-cate">
                      <div class="suites-cate-container flex-container-sb">
-                      <div class="suites-cate-item ">
-                        <?php
-                        $args = array(
-                          'post_type' => 'suite',
-                        //'order' => 'ASC',
-                          'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
-                          'posts_per_page' => 2,
-                          'tax_query' => array(
-                            array(
-                              'taxonomy' => 'view',
-                              'field' => 'slug',
-                              'terms' => 'garden'
-                            )
-                          )
-
-
-
-                        );
-
-
-                        $items = new WP_Query($args);
-                    // Pagination fix
-                        $temp_query = $wp_query;
-                        $wp_query = null;
-                        $wp_query = $items;
-                        $index = 0;
-                        if ($items->have_posts()) {
-                          while ($items->have_posts()) {
-                            $items->the_post();
-
-                            ?>
-
-                            
-                            <a href="#suite-popup-<?php echo $post->ID; ?>" class="suites-cate-item-link suites-popup-link">
-                              <?php if (has_post_thumbnail()) :
-
-                                $id = get_post_thumbnail_id($post->ID);
-                                $thumb_url = wp_get_attachment_image_src($id, 'home-item-half', true);
-                                //$large_url = wp_get_attachment_image_src($id, 'home-item', true);
-                              ?>
-                                        
-                                     
-                                  <div class="suites-cate-item-bg" style="background-image: url('<?php echo $thumb_url[0] ?>')"></div>
-                                        
-                                            
-                              <?php endif; ?>
-                             
-                              <div class="suites-cate-item-border">
-                                <div class="suites-cate-item-border-left"></div>
-                                <div class="suites-cate-item-border-right"></div>
-                                <div class="suites-cate-item-content">
-                                  <h3 class="suites-cate-item-title"><?php the_title(); ?></h3>
-                                  <p class="suites-cate-item-description"><?php the_excerpt(); ?></p>
-                                </div>
-                              </div>
-                              
-                            </a>
-                            <div id="suite-popup-<?php echo $post->ID; ?>" class="suite-popup white-popup mfp-hide mfp-with-anim">
-                                <h3 class="popup-title"><?php the_title(); ?></h3>
-                                <div class="popup-thumbnail">
-                                  <?php the_post_thumbnail('home-item-large'); ?>
-                                </div><!-- .post-thumbnail -->
-                                <?php the_content() ?>
-                                  
-                                
-
-                              </div>
-                    
-
-                    
-                        
-                        <?php
-
-                        $index++;
-                      }
-                    }
-
-                    ?>
-                     </div> 
+                      
                      <?php
                     $args = array(
                       'post_type' => 'suite',
                         //'order' => 'ASC',
                       'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
-                      'posts_per_page' => 4,
-                      'tax_query' => array(
-                        array(
+                      'posts_per_page' => 6,
+                      /*'tax_query' => array(
+                        /*array(
                           'taxonomy' => 'view',
                           'field' => 'slug',
-                          'terms' => array('garden'),
-                          'operator' => 'NOT IN',
+                          //'terms' => array('garden'),
+                          //'operator' => 'NOT IN',
                         )
-                      )
+                     )*/
 
 
                     );
@@ -147,7 +69,7 @@ get_header(); ?>
 
                         ?>
 
-                            <div class="suites-cate-item <?php echo ($post->ID == 33) ? 'large' : '' ?>">
+                            <div class="suites-cate-item <?php /*echo ($post->ID == 33) ? 'large' : '' */?>">
                             <a href="#suite-popup-<?php echo $post->ID; ?>" class="suites-cate-item-link suites-popup-link">
                               <?php if (has_post_thumbnail()) :
 
