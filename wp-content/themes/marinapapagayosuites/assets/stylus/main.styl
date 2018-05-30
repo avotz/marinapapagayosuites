@@ -448,14 +448,35 @@ body
 @media screen and (min-width: 768px)
 	.services
 		&-item
-			width: 49%;
+			width: 33%//49%;
+			
 			&-bg 
 				opacity: 0;
 				will-change: opacity;
 			&-link 
 				color #3b3b3b
+				min-height: 362px
 				.icon 
 					border-color #3b3b3b
+
+.activities-boxes
+	display: flex
+	flex-wrap: wrap
+	justify-content: center
+	.box
+		min-height: 300px
+		padding: 10px
+		width: 30%
+		background: rgb(246, 246, 246)
+		text-align: center
+		margin: 0 .5rem 1rem
+		h3 
+			text-transform: capitalize
+			font-size: 1.2rem
+			
+		p
+			font-size: 14px
+			line-height: 24px
 .map 
 	iframe
 		height 90vh
@@ -471,7 +492,12 @@ body
 .white-popup
 	ul 
 		margin-left: 35px;
-		line-height: 28px;		
+		line-height: 28px;
+		margin-bottom: 1rem
+	> h3
+		font-size: 1.5rem
+		font-weight: 900
+
 .footer
 	background-color #454139
 	position relative

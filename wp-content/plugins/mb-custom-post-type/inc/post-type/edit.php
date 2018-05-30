@@ -36,7 +36,10 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 		parent::__construct( $post_type );
 
 		$this->register = $register;
-		$this->encoder = $encoder;
+		$this->encoder  = $encoder;
+
+		// Change the menu positions option after all menus are registered.
+		add_action( 'admin_menu', array( $this, 'change_menu_positions_option' ), 9999 );
 	}
 
 	/**
@@ -46,7 +49,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 	 */
 	public function js_vars() {
 		// @codingStandardsIgnoreStart
-		return array(
+		return array_merge( parent::js_vars(), array(
 			'menu_name'          => '%name%',
 			'name_admin_bar'     => '%singular_name%',
 			'all_items'          => __( 'All %name%', 'mb-custom-post-type' ),
@@ -59,7 +62,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 			'not_found'          => __( 'No %name% found', 'mb-custom-post-type' ),
 			'not_found_in_trash' => __( 'No %name% found in Trash', 'mb-custom-post-type' ),
 			'parent_item_colon'  => __( 'Parent %singular_name%', 'mb-custom-post-type' ),
-		);
+		) );
 		// @codingStandardsIgnoreEnd
 	}
 
@@ -74,7 +77,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 		$label_prefix = 'label_';
 		$args_prefix  = 'args_';
 
-		$basic_fields    = array(
+		$basic_fields = array(
 			array(
 				'name'        => __( 'Plural name', 'mb-custom-post-type' ),
 				'id'          => $label_prefix . 'name',
@@ -94,7 +97,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 			),
 		);
 
-		$labels_fields   = array(
+		$labels_fields = array(
 			array(
 				'name'        => __( 'Menu name', 'mb-custom-post-type' ),
 				'id'          => $label_prefix . 'menu_name',
@@ -235,10 +238,11 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 				'type' => 'text',
 				'desc' => __( 'To change the base url of REST API route. Default is post type.', 'mb-custom-post-type' ),
 			),
-			array(
-				'name' => __( 'Menu position', 'mb-custom-post-type' ),
-				'id'   => $args_prefix . 'menu_position',
-				'type' => 'number',
+			'menu_position' => array(
+				'name'    => __( 'Menu position after', 'mb-custom-post-type' ),
+				'id'      => $args_prefix . 'menu_position',
+				'type'    => 'select_advanced',
+				'options' => array(),
 			),
 			array(
 				'name'    => __( 'Menu icon', 'mb-custom-post-type' ),
@@ -314,17 +318,19 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 				'type' => 'text',
 				'std'  => 'text-domain',
 			),
-			array(
-				'name' => __( 'Code', 'mb-custom-post-type' ),
-				'id'   => 'code',
-				'type' => 'custom-html',
-				'callback' => array( $this, 'generated_code_html' ),
-			),
 		);
+		if ( isset( $_GET['post'] ) ) {
+			$code_fields[] = array(
+				'name'     => __( 'Code', 'mb-custom-post-type' ),
+				'id'       => 'code',
+				'type'     => 'custom-html',
+				'callback' => array( $this, 'generated_code_html' ),
+			);
+		}
 
 		// Basic settings.
 		$meta_boxes[] = array(
-			'id'         => 'basic-settings',
+			'id'         => 'mb-cpt-basic-settings',
 			'title'      => __( 'Basic Settings', 'mb-custom-post-type' ),
 			'pages'      => array( 'mb-post-type' ),
 			'fields'     => array_merge(
@@ -365,7 +371,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 
 		// Labels settings.
 		$meta_boxes[] = array(
-			'id'     => 'label-settings',
+			'id'     => 'mb-cpt-label-settings',
 			'title'  => __( 'Labels Settings', 'mb-custom-post-type' ),
 			'pages'  => array( 'mb-post-type' ),
 			'fields' => $labels_fields,
@@ -373,7 +379,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 
 		// Advanced settings.
 		$meta_boxes[] = array(
-			'id'     => 'advanced-settings',
+			'id'     => 'mb-cpt-advanced-settings',
 			'title'  => __( 'Advanced Settings', 'mb-custom-post-type' ),
 			'pages'  => array( 'mb-post-type' ),
 			'fields' => $advanced_fields,
@@ -381,7 +387,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 
 		// Supports.
 		$meta_boxes[] = array(
-			'id'       => 'supports',
+			'id'       => 'mb-cpt-supports',
 			'title'    => __( 'Supports', 'mb-custom-post-type' ),
 			'pages'    => array( 'mb-post-type' ),
 			'priority' => 'low',
@@ -409,7 +415,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 
 		// Default taxonomies.
 		$meta_boxes[] = array(
-			'id'       => 'taxonomies',
+			'id'       => 'mb-cpt-taxonomies',
 			'title'    => __( 'Default Taxonomies', 'mb-custom-post-type' ),
 			'pages'    => array( 'mb-post-type' ),
 			'priority' => 'low',
@@ -429,7 +435,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 		);
 
 		$meta_boxes[] = array(
-			'id'         => 'generate-code',
+			'id'         => 'mb-cpt-generate-code',
 			'title'      => __( 'Generate Code', 'mb-custom-post-type' ),
 			'post_types' => array( 'mb-post-type' ),
 			'fields'     => $code_fields,
@@ -508,7 +514,7 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 
 		$post_type_data = $this->register->set_up_post_type( $labels, $args );
 
-		$encode_data = array(
+		$encode_data    = array(
 			'function_name'  => get_post_meta( $post_id, 'function_name', true ),
 			'text_domain'    => get_post_meta( $post_id, 'text_domain', true ),
 			'post_type'      => $args['post_type'],
@@ -516,6 +522,44 @@ class MB_CPT_Post_Type_Edit extends MB_CPT_Base_Edit {
 		);
 		$encoded_string = $this->encoder->encode( $encode_data );
 
-		return '<div id="generated-code"><pre><code class="php">' . esc_textarea( $encoded_string ) . '</code></pre></div>';
+		$output = '
+			<div id="generated-code">
+				<a href="javascript:void(0);" class="mb-button--copy">
+					<svg class="mb-icon--copy" aria-hidden="true" role="img"><use href="#mb-icon-copy" xlink:href="#icon-copy"></use></svg>
+					' . esc_html__( 'Copy', 'mb-custom-post-type' ) . '
+				</a>
+				<pre><code class="php">' . esc_textarea( $encoded_string ) . '</code></pre>
+			</div>';
+		$output .= '
+			<svg style="display: none;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				<symbol id="mb-icon-copy" viewBox="0 0 1024 896">
+					<path d="M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V192c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-29-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+				</symbol>
+			</svg>';
+		return $output;
+	}
+
+	/**
+	 * Change menu positions options.
+	 */
+	public function change_menu_positions_option() {
+		$meta_box = rwmb_get_registry( 'meta_box' )->get( 'mb-cpt-advanced-settings' );
+		$meta_box->meta_box['fields']['menu_position']['options'] = $this->get_menu_positions();
+	}
+
+	/**
+	 * Get WordPress menu positions
+	 *
+	 * @return array
+	 */
+	public function get_menu_positions() {
+		global $menu;
+		$positions = array();
+		foreach ( $menu as $position => $params ) {
+			if ( ! empty( $params[0] ) ) {
+				$positions[ $position ] = wp_strip_all_tags( $params[0] );
+			}
+		}
+		return $positions;
 	}
 }

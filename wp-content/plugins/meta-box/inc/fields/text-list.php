@@ -22,16 +22,18 @@ class RWMB_Text_List_Field extends RWMB_Multiple_Values_Field {
 		$input = '<label><input type="text" class="rwmb-text-list" name="%s" value="%s" placeholder="%s"> %s</label>';
 
 		$count = 0;
-		foreach ( $field['options'] as $placeholder => $label ) {
-			$html[] = sprintf(
-				$input,
-				$field['field_name'],
-				isset( $meta[ $count ] ) ? esc_attr( $meta[ $count ] ) : '',
-				$placeholder,
-				$label
-			);
-			$count ++;
-		}
+		if ( ! empty( $field['options'] ) ) :
+			foreach ( $field['options'] as $placeholder => $label ) {
+				$html[] = sprintf(
+					$input,
+					$field['field_name'],
+					isset( $meta[ $count ] ) ? esc_attr( $meta[ $count ] ) : '',
+					$placeholder,
+					$label
+				);
+				$count ++;
+			}
+		endif;
 
 		return implode( ' ', $html );
 	}
@@ -51,7 +53,7 @@ class RWMB_Text_List_Field extends RWMB_Multiple_Values_Field {
 		foreach ( $field['options'] as $label ) {
 			$output .= "<th>$label</th>";
 		}
-		$output .= '<tr>';
+		$output .= '</tr></thead><tbody>';
 
 		if ( ! $field['clone'] ) {
 			$output .= self::format_single_value( $field, $value, $args, $post_id );

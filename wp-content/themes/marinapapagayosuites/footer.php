@@ -12,8 +12,13 @@
 get_template_part('template-parts/content', 'footer');
 ?>
 
-
-		
+<div id="contact-popup" class="request-popup white-popup mfp-hide mfp-with-anim">
+         <h2>Contact Us</h2>
+         <?php echo do_shortcode('[contact-form-7 id="31" title="Contact form"]'); ?>
+              
+        
+    </div>
+	
 <?php wp_footer(); ?>
 
 </body>

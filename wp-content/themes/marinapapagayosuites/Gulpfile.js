@@ -42,7 +42,8 @@ gulp.task('js', function () {
       /*'./assets/js/vendor/jquery.uniform.js',*/
       /*'./assets/js/vendor/TweenMax.min.js',*/
       './assets/js/vendor/jquery.fullpage.min.js',
-      
+      './assets/js/vendor/animatedModal.min.js',
+  
       './assets/js/basic.js',
       './assets/js/main.js'
 

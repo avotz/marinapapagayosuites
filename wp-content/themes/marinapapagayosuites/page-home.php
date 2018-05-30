@@ -136,11 +136,10 @@ get_header(); ?>
               <div class="inner">
                  <div class="services-container flex-container-sb">
                     <div class="services-item">
-                      <a href="#" class="services-item-link">
-                         <div class="services-item-bg"></div>
-                           <h3>Adventures and tours</h3>
-                           <p> sit amet, consectetur adipisicing elit, sed do eiusmod
-                           tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <a href="#service-popup-1" class="services-item-link">
+                         <div class="services-item-bg" style="background-image:url('<?php echo get_template_directory_uri(); ?>/img/activities.jpg');"></div>
+                           <h3>Activities and Adventures</h3>
+                           <p> As a tropical destination teeming with wildlife and rich Central American culture, Costa Rica is a dream jungle and beach destination. </p>
                            <span class="icon">
                              <i class="fa fa-info"></i>
                            </span>
@@ -148,11 +147,10 @@ get_header(); ?>
                       </a>
                     </div>
                     <div class="services-item">
-                      <a href="#" class="services-item-link">
+                      <a href="#service-popup-2" class="services-item-link">
                          <div class="services-item-bg"></div>
-                           <h3>Concierge</h3>
-                           <p> sit amet, consectetur adipisicing elit, sed do eiusmod
-                           tempor incididunt ut labore et dolore magna aliqua.</p>
+                           <h3>Tailored Concierge Services</h3>
+                           <p>Do you have a special request, let our professional concierges handle them, no details are little no request are too hard to meet.</p>
                            <span class="icon">
                              <i class="fa fa-info"></i>
                            </span>
@@ -160,18 +158,17 @@ get_header(); ?>
                       </a>
                     </div>
                     <div class="services-item">
-                      <a href="#" class="services-item-link">
-                         <div class="services-item-bg"></div>
-                           <h3>Amenities</h3>
-                           <p> sit amet, consectetur adipisicing elit, sed do eiusmod
-                           tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <a href="#service-popup-3" class="services-item-link">
+                         <div class="services-item-bg" style="background-image:url('<?php echo get_template_directory_uri(); ?>/img/hotel-amenities.jpg');"></div>
+                           <h3>Hotel Amenities</h3>
+                           <p> Marina Papagayo Suites is conveniently located at the Marina Papagayo Centre,  with stunning views of the ocean and nearby forest</p>
                            <span class="icon">
                              <i class="fa fa-info"></i>
                            </span>
                         
                       </a>
                     </div>
-                    <div class="services-item">
+                    <!-- <div class="services-item">
                       <a href="#" class="services-item-link">
                          <div class="services-item-bg"></div>
                            <h3>Lorem ipsum dolor</h3>
@@ -182,16 +179,121 @@ get_header(); ?>
                            </span>
                         
                       </a>
-                    </div>
+                    </div> -->
                  </div>
               </div>
+               <div id="service-popup-1" class="suite-popup white-popup mfp-hide mfp-with-anim">
+                   <?php rewind_posts(); ?>
+                      <?php query_posts('post_type=page&page_id=43'); ?>
+                      <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                                  <h3><?php the_title(); ?></h3>
+                                  <?php the_content(); ?>
+
+                                  <!-- <div class="activities-boxes">
+                                      <div class="box">
+                                          <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/golf.jpg" alt="Golf">
+                                          </div>
+                                          <h3 class="box-title">Golf</h2>
+                                          <p>Spectacular golf course designed by Arnold Palmer at Peninsula Papagayo, with the most amazing water view.</p>
+                                      </div>
+                                      <div class="box">
+                                          <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/land-tours.jpg" alt="Land Tours">
+                                          </div>
+                                          <h3 class="box-title">Land tours</h2>
+                                          <p>Explore the once in a lifetime tours available in Costa Rica, where you will never forget the experiences.</p>
+                                      </div>
+                                      <div class="box">
+                                          <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/fishing.jpg" alt="Fishing and water adventures">
+                                          </div>
+                                          <h3 class="box-title">Fishing and water adventures</h2>
+                                          <p>Around Peninsula Papagayo area the beauty of paradise and the thrill of Big Game Fishing it´s the best.</p>
+                                      </div>
+                                      <div class="box">
+                                          <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/golf-car.jpg" alt="Golf Cart Rentals">
+                                          </div>
+                                          <h3 class="box-title">Golf Cart Rentals</h2>
+                                          <p>One of the best most ideal transportation to explore all the gorgeous spots that Peninsula Papagayo offers! </p>
+                                      </div>
+                                      <div class="box">
+                                          <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/food.jpg" alt="Food and Drink Experiences">
+                                          </div>
+                                          <h3 class="box-title">Food and Drink Experiences</h2>
+                                          <p>Every occasion will get memorable at any of the fine dining signature restaurants that the Resort and the Hotel´s offer.</p>
+                                      </div>
+                                      <div class="box">
+                                          <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/prieta.jpg" alt="Prieta Beach Club">
+                                          </div>
+                                          <h3 class="box-title">Prieta Beach Club</h2>
+                                          <p>Find your place at Prieta Beach Club! Where you can get the perfect setting to enjoy a carefree vacation at its finest! </p>
+                                      </div>
+                                      <div class="box">
+                                           <div class="box-img">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/img/activities/tennis.jpg" alt="Tennis Complex">
+                                          </div>
+                                          <h3 class="box-title">Tennis Complex</h2>
+                                          <p>With an enviable dry tropical climate and a lush jungle setting, tennis at Peninsula Papagayo it´s invigorating and memorable.</p>
+                                      </div>
+
+                                  </div> -->
+                          
+              
+                          <?php endwhile; ?>
+                          <!-- post navigation -->
+                      
+                      <?php endif; ?>
+                    
+                  
+
+                </div>
+                 <div id="service-popup-2" class="suite-popup white-popup mfp-hide mfp-with-anim">
+                   <?php rewind_posts(); ?>
+                      <?php query_posts('post_type=page&page_id=45'); ?>
+                      <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                                   <h3><?php the_title(); ?></h3>
+                                  <?php the_content(); ?>
+                          
+              
+                          <?php endwhile; ?>
+                          <!-- post navigation -->
+                      
+                      <?php endif; ?>
+                    
+                  
+
+                </div>
+                 <div id="service-popup-3" class="suite-popup white-popup mfp-hide mfp-with-anim">
+                   <?php rewind_posts(); ?>
+                      <?php query_posts('post_type=page&page_id=47'); ?>
+                      <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                                   <h3><?php the_title(); ?></h3>
+                                  <?php the_content(); ?>
+                          
+              
+                          <?php endwhile; ?>
+                          <!-- post navigation -->
+                      
+                      <?php endif; ?>
+                    
+                  
+
+                </div>
+                           
+
+
             </div>
             <div class="section map" id="section3">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15684.919025455205!2d-85.4281962!3d10.639251!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x756af3ebd14361a2!2sAvotz+Web+Works!5e0!3m2!1ses-419!2s!4v1442615525574" width="600" height="250" frameborder="0" style="border:0" allowfullscreen="" scrolling="no"></iframe>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3921.183000030684!2d-85.65684648487552!3d10.642887192412202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f75811b26bc50cf%3A0x72ef2ac27debb760!2sMarina+Papagayo+Suites!5e0!3m2!1ses-419!2scr!4v1527720743477" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
             </div>
             
-<?php
 
+
+<?php
 get_footer('home');
 
            

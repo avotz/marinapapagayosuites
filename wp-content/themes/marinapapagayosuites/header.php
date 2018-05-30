@@ -25,10 +25,10 @@
 <header class="header">
           <div class="header-container ">
               
-              <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Marina Papagayo Suites"></a>
+              <!-- <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Marina Papagayo Suites"></a> -->
               <div class="header-right flex-container-sb">
                 <div class="header-contact">
-                  <a href="#" class="btn success"><i class="fa fa-envelope-o"></i><span class="text">Contact Us</span></a>
+                  <a href="#contact-popup" class="btn success"><i class="fa fa-envelope-o"></i><span class="text">Contact Us</span></a>
                 </div>
                 <div class="header-btn-menu">
                    <button id="btn-menu" class="nav-btn-menu">

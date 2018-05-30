@@ -47,7 +47,7 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 	 */
 	public function js_vars() {
 		// @codingStandardsIgnoreStart
-		return array(
+		return array_merge( parent::js_vars(), array(
 			'menu_name'                  => '%name%',
 			'all_items'                  => __( 'All %name%', 'mb-custom-post-type' ),
 			'edit_item'                  => __( 'Edit %singular_name%', 'mb-custom-post-type' ),
@@ -63,7 +63,7 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 			'add_or_remove_items'        => __( 'Add or remove %name%', 'mb-custom-post-type' ),
 			'choose_from_most_used'      => __( 'Choose most used %name%', 'mb-custom-post-type' ),
 			'not_found'                  => __( 'No %name% found', 'mb-custom-post-type' ),
-		);
+		) );
 		// @codingStandardsIgnoreEnd
 	}
 
@@ -275,6 +275,27 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 				'type' => 'checkbox',
 				'desc' => __( 'Whether this taxonomy should remember the order in which terms are added to objects.', 'mb-custom-post-type' ),
 			),
+			array(
+				'name' => __( 'Rewrite', 'mb-custom-post-type' ),
+				'type' => 'heading',
+			),
+			array(
+				'name' => __( 'Rewrite slug', 'mb-custom-post-type' ),
+				'id'   => $args_prefix . 'rewrite_slug',
+				'type' => 'text',
+				'desc' => __( 'Leave empty to use post type as rewrite slug.', 'mb-custom-post-type' ),
+			),
+			array(
+				'name' => __( 'No prepended permalink structure?', 'mb-custom-post-type' ),
+				'id'   => $args_prefix . 'rewrite_no_front',
+				'type' => 'checkbox',
+				'desc' => __( 'Do not prepend the permalink structure with the front base.', 'mb-custom-post-type' ),
+			),
+			array(
+				'name' => __( 'Hierarchical URL', 'mb-custom-post-type' ),
+				'id'   => $args_prefix . 'rewrite_hierarchical',
+				'type' => 'checkbox',
+			),
 		);
 
 		$code_fields = array(
@@ -290,17 +311,19 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 				'type' => 'text',
 				'std'  => 'text-domain',
 			),
-			array(
-				'name' => __( 'Code', 'mb-custom-post-type' ),
-				'id'   => 'code',
-				'type' => 'custom-html',
-				'callback' => array( $this, 'generated_code_html' ),
-			),
 		);
+		if ( isset( $_GET['post'] ) ) {
+			$code_fields[] = array(
+				'name'     => __( 'Code', 'mb-custom-post-type' ),
+				'id'       => 'code',
+				'type'     => 'custom-html',
+				'callback' => array( $this, 'generated_code_html' ),
+			);
+		}
 
 		// Basic settings.
 		$meta_boxes[] = array(
-			'id'         => 'basic-settings',
+			'id'         => 'ct-basic-settings',
 			'title'      => __( 'Basic Settings', 'mb-custom-post-type' ),
 			'post_types' => 'mb-taxonomy',
 			'fields'     => array_merge(
@@ -341,7 +364,7 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 
 		// Labels settings.
 		$meta_boxes[] = array(
-			'id'         => 'label-settings',
+			'id'         => 'mb-ct-label-settings',
 			'title'      => __( 'Labels Settings', 'mb-custom-post-type' ),
 			'post_types' => 'mb-taxonomy',
 			'fields'     => $labels_fields,
@@ -349,14 +372,14 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 
 		// Advanced settings.
 		$meta_boxes[] = array(
-			'id'         => 'advanced-settings',
+			'id'         => 'mb-ct-advanced-settings',
 			'title'      => __( 'Advanced Settings', 'mb-custom-post-type' ),
 			'post_types' => 'mb-taxonomy',
 			'fields'     => $advanced_fields,
 		);
 
 		$meta_boxes[] = array(
-			'id'         => 'generate-code',
+			'id'         => 'mb-ct-generate-code',
 			'title'      => __( 'Generate Code', 'mb-custom-post-type' ),
 			'post_types' => array( 'mb-taxonomy' ),
 			'fields'     => $code_fields,
@@ -370,6 +393,7 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 			$options[ $post_type ] = $post_type_object->labels->singular_name;
 		}
 		$meta_boxes[] = array(
+			'id'         => 'mb-ct-assign',
 			'title'      => __( 'Assign To Post Types', 'mb-custom-post-type' ),
 			'context'    => 'side',
 			'post_types' => 'mb-taxonomy',
@@ -382,6 +406,22 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 				),
 			),
 		);
+
+		if ( ! $this->is_premium_user() ) {
+			$meta_boxes[] = array(
+				'id'         => 'mb-ct-upgrade',
+				'title'      => __( 'Upgrade to Meta Box Premium', 'mb-custom-post-type' ),
+				'post_types' => array( 'mb-post-type', 'mb-taxonomy' ),
+				'context'    => 'side',
+				'priority'   => 'low',
+				'fields'     => array(
+					array(
+						'type'     => 'custom_html',
+						'callback' => array( $this, 'upgrade_message' ),
+					),
+				),
+			);
+		}
 
 		$fields = array_merge( $basic_fields, $labels_fields, $advanced_fields );
 
@@ -448,6 +488,38 @@ class MB_CPT_Taxonomy_Edit extends MB_CPT_Base_Edit {
 		);
 		$encoded_string = $this->encoder->encode( $encode_data );
 
-		return '<div id="generated-code"><pre><code class="php">' . esc_textarea( $encoded_string ) . '</code></pre></div>';
+		$output = '
+			<div id="generated-code">
+				<a href="javascript:void(0);" class="mb-button--copy">
+					<svg class="mb-icon--copy" aria-hidden="true" role="img"><use href="#mb-icon-copy" xlink:href="#icon-copy"></use></svg>
+					' . esc_html__( 'Copy', 'mb-custom-post-type' ) . '
+				</a>
+				<pre><code class="php">' . esc_textarea( $encoded_string ) . '</code></pre>
+			</div>';
+		$output .= '
+			<svg style="display: none;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				<symbol id="mb-icon-copy" viewBox="0 0 1024 896">
+					<path d="M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V192c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-29-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+				</symbol>
+			</svg>';
+		return $output;
+	}
+
+	/**
+	 * Display upgrade message.
+	 *
+	 * @return string
+	 */
+	public function upgrade_message() {
+		$output = '<ul>';
+		$output .= '<li>' . __( 'Create custom fields with drag-n-drop interface - no coding knowledge required!', 'mb-custom-post-type' ) . '</li>';
+		$output .= '<li>' . __( 'Add custom fields to taxonomies or user profile.', 'mb-custom-post-type' ) . '</li>';
+		$output .= '<li>' . __( 'Create custom settings pages.', 'mb-custom-post-type' ) . '</li>';
+		$output .= '<li>' . __( 'Create frontend submission forms.', 'mb-custom-post-type' ) . '</li>';
+		$output .= '<li>' . __( 'And much more!', 'mb-custom-post-type' ) . '</li>';
+		$output .= '</ul>';
+		$output .= '<a href="https://metabox.io/pricing/?utm_source=plugin_cpt&utm_medium=btn_upgrade&utm_campaign=cpt_upgrade" class="button button-primary">' . esc_html__( 'Get Meta Box Premium now', 'mb-custom-post-type' ) . '</a>';
+
+		return $output;
 	}
 }
